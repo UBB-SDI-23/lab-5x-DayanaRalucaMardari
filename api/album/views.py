@@ -6,8 +6,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 # from artist.serializers import AlbumSerializerById
-from .serializers import AlbumSerializerById
-from api.serializers import AlbumSerializer
+# from .serializers import AlbumSerializerById
+from api.serializers import AlbumSerializer, AlbumSerializerById
 
 from .models import Album
 from artist.models import Artist
@@ -50,6 +50,8 @@ def getAlbumById(request, pk):
 
 @api_view(['POST'])
 def albumCreate(request):
+    print("BACKEND\n")
+    print(request.data)
     # validate the existance the given 'artist_id' FK
     # artist_id = request.data['artist_id']
     # try:

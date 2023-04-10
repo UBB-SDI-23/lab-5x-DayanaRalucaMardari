@@ -8,8 +8,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 
-from .serializers import ArtistSerializerById, ArtistsOrderedByAvgOfAlbumsNo
-from api.serializers import ArtistSerializer
+# from .serializers import ArtistSerializerById, ArtistsOrderedByAvgOfAlbumsNo
+from api.serializers import ArtistSerializer, ArtistSerializerById, ArtistsOrderedByAvgOfAlbumsNo
 
 from .models import Artist
 from album.models import Album

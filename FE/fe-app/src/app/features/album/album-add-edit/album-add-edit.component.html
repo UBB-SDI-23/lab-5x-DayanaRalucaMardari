@@ -1,0 +1,52 @@
+<div class="add-edit-container">
+    <div mat-dialog-title>
+        <h1 class="title">Album</h1>
+    </div>
+    <form [formGroup]="albumForm" (ngSubmit)="onSubmit()">
+        <div mat-dialog-content class="mat-dialog-content-container">
+            <div class="row">
+                <mat-form-field appearance="outline" class="album-form">
+                    <mat-label>Title</mat-label>
+                    <input matInput type="text" formControlName="title">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Date of release</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="release_date">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field appearance="outline" class="album-form">
+                    <mat-label>Genre</mat-label>
+                    <input matInput type="text" formControlName="genre">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="album-form">
+                    <mat-label>Length</mat-label>
+                    <input matInput type="text" formControlName="length">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Artist</mat-label>
+                    <input type="text"
+                           placeholder="Pick one"
+                           aria-label="Number"
+                           matInput
+                           formControlName= "artist_id"
+                           [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectArtist($event.option.value)">
+                      <mat-option *ngFor="let option of filteredArtists | async" [value]="option.id">
+                        {{option.id}} | {{option.name}}
+                      </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+        </div>
+        <div mat-dialog-actions class="action-buttons">
+            <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+            <button mat-raised-button color="primary" type="submit">{{data ? 'Update' : 'Save'}}</button>
+        </div>
+    </form>
+</div>

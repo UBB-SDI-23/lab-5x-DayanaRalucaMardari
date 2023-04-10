@@ -1,0 +1,28 @@
+.add-edit-container {
+    width: 700px;
+}
+
+.title {
+    text-align: center;
+}
+
+.add-edit-container mat-dialog-title .h1{
+    display: flex;
+    justify-content: center;
+}
+
+.mat-dialog-content-container {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.action-buttons {
+    padding: 0px 25px 20px;
+}
+
+.action-buttons button {
+    flex: 1;
+}

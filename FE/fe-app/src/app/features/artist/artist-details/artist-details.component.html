@@ -1,0 +1,19 @@
+<ng-container *ngIf="artist">
+    <div class="artist-details-container">
+        <mat-card class="artist-details-card">
+            <mat-card-header>
+                <mat-card-title>{{artist.name}}</mat-card-title>
+                <!-- <mat-card-subtitle>End</mat-card-subtitle> -->
+                <mat-card-content>
+                    <h4>Height: {{artist.height}}</h4>
+                    <h4>Nationality: {{artist.nationality}}</h4>
+                    <h4>Birth date: {{artist.birth_date}}</h4>
+                  </mat-card-content>
+            </mat-card-header>
+            <mat-card-actions align="end">
+                <button mat-button>EDIT</button>
+                <button mat-button>DELETE</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</ng-container>

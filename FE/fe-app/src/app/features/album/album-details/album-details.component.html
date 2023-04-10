@@ -1,0 +1,19 @@
+<ng-container *ngIf="album">
+    <div class="album-details-container">
+        <mat-card class="album-details-card">
+            <mat-card-header>
+                <mat-card-title>{{album.title}}</mat-card-title>
+                <mat-card-content>
+                    <h4>Release Date: {{album.release_date | date}}</h4>
+                    <h4>Genre: {{album.genre}}</h4>
+                    <h4>Length: {{album.length}}</h4>
+                    <h4>Artist: {{album.artist_id.name}}</h4>
+                  </mat-card-content>
+            </mat-card-header>
+            <mat-card-actions align="end">
+                <button mat-button>EDIT</button>
+                <button mat-button>DELETE</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</ng-container>

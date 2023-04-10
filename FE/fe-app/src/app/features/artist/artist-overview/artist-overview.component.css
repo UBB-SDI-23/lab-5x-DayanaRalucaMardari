@@ -1,0 +1,37 @@
+.table-container {
+    max-width: 1248px;
+    padding-top: 20px;
+    margin: 0 auto;
+}
+
+.table-container mat-form-field {
+    width: 100%;
+}
+
+.artist-table {
+    width: 100%;
+}
+  
+.add-artist-container {
+    margin: 15px;
+}
+
+.artist-overview-title {
+    margin-top: 15px;
+    margin-bottom: 25px;
+}
+.artist-overview-title>h2 {
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 120px;
+}
+
+.action-buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }

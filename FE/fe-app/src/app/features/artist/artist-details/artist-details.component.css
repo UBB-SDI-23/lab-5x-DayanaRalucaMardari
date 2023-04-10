@@ -1,0 +1,9 @@
+.artist-details-card {
+    width: 80%;
+}
+
+.artist-details-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}

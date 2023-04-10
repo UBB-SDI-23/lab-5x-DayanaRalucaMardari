@@ -1,0 +1,33 @@
+.add-edit-container {
+    width: 700px;
+}
+
+.title {
+    text-align: center;
+}
+
+.mat-dialog-content-container {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.action-buttons {
+    padding: 0px 25px 20px;
+}
+
+.action-buttons button {
+    flex: 1;
+}
+
+.row {
+    display: flex;
+    gap: 10px;
+    width: 450px;
+}
+
+.row mat-form-field {
+    width: 100%;
+}

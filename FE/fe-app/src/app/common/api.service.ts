@@ -10,8 +10,8 @@ import { AddAlbumDto, Album } from '../features/artist/artist-overview/models/al
   providedIn: 'root'
 })
 export class ApiService {
-  baseUrl = 'http://localhost:8000/api'; // have to change it to the AWS
-   //baseUrl = 'http://13.50.242.105:80/api';
+  //baseUrl = 'http://localhost:8000/api'; // have to change it to the AWS
+  baseUrl = 'http://13.53.201.209:80/api';
   _refreshRequested$ = new Subject<void>();
 
   constructor(private http: HttpClient) { }

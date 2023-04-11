@@ -13,7 +13,10 @@
 }
   
 .add-album-container {
-    margin: 15px;
+    max-width: 1248px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .album-overview-title {

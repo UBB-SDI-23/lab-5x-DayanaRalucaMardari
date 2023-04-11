@@ -19,7 +19,7 @@ import { CoreService } from 'src/app/common/core.service';
 })
 export class ArtistOverviewComponent implements OnInit {
   artists$: Artist[] = [];
-  displayedColumns: string[] = ['name', 'height', 'nationality', 'birth_date','artist-actions'];
+  displayedColumns: string[] = ['index', 'name', 'height', 'nationality', 'birth_date','artist-actions'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

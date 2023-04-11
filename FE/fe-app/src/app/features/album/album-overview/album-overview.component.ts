@@ -18,7 +18,7 @@ import { AlbumAddEditComponent } from '../album-add-edit/album-add-edit.componen
   styleUrls: ['./album-overview.component.css']
 })
 export class AlbumOverviewComponent {
-  displayedColumns: string[] = ['title', 'release_date', 'genre', 'length', 'album-actions'];
+  displayedColumns: string[] = ['index', 'title', 'release_date', 'genre', 'length', 'album-actions'];
   dataSource!: MatTableDataSource<any>;
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;

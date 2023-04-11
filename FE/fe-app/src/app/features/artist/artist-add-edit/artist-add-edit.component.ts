@@ -22,7 +22,8 @@ export class ArtistAddEditComponent implements OnInit {
     this.artistForm = this._fb.group({
       name: '',
       height: '',
-      nationality: ''
+      nationality: '',
+      birth_date: ''
     });
   }
 

@@ -10,7 +10,7 @@ export interface AddArtistDto {
     name: string;
     height: number;
     nationality: string;
-    // birth_date: string;
+    birth_date: string;
 }
 
 export interface ArtistFK {

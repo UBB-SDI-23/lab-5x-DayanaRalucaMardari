@@ -21,6 +21,7 @@ export class ArtistOverviewComponent implements OnInit {
   artists$: Artist[] = [];
   displayedColumns: string[] = ['index', 'name', 'height', 'nationality', 'birth_date','artist-actions'];
   dataSource!: MatTableDataSource<any>;
+  heightFilter!: number;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -37,6 +38,14 @@ export class ArtistOverviewComponent implements OnInit {
     this.apiService.refreshRequested$.subscribe(response => {
       this.getAllArtists();
     })
+  }
+
+  getArtistByHeight(height: any) {
+    this.apiService.getArtistByMinHeight(height).subscribe((artists: Artist[]) => {
+      this.dataSource = new MatTableDataSource(artists);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    });
   }
 
   getAllArtists() {

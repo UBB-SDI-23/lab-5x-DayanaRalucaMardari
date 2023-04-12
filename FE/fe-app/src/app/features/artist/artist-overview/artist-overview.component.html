@@ -7,7 +7,14 @@
     </div>
     <div class="table-container">
         <mat-form-field>
-            <mat-label>Filter</mat-label>
+            <mat-label>Filter by minimum height</mat-label>
+            <input class="input-filter" matInput type="number" #box name="filterArtistByHeight">
+        </mat-form-field>
+        <button mat-raised-button (click)="getArtistByHeight(box.value)">Filter</button>
+    </div>
+    <div class="table-container">
+        <mat-form-field>
+            <mat-label>Filter by any field</mat-label>
             <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
         </mat-form-field>
           

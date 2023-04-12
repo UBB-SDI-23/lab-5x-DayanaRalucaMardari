@@ -11,7 +11,7 @@ import { AddAlbumDto, Album } from '../features/artist/artist-overview/models/al
 })
 export class ApiService {
   //baseUrl = 'http://localhost:8000/api'; // have to change it to the AWS
-  baseUrl = 'http://13.50.233.252:80/api';
+  baseUrl = 'http://13.50.17.55:80/api';
   _refreshRequested$ = new Subject<void>();
 
   constructor(private http: HttpClient) { }
@@ -40,6 +40,10 @@ export class ApiService {
   onDeleteArtist(artistId: string) {
     return this.http.delete(`${this.baseUrl}/artist/delete/${artistId}/`)
              .pipe(tap(() => {this._refreshRequested$.next();}));
+  }
+
+  getArtistByMinHeight(minHeight: any): Observable<Artist[]> {
+    return this.http.get(`${this.baseUrl}/artist/filter/height/minimum?min_height=${minHeight}`) as Observable<Artist[]>;
   }
 
   getArtistsName(): Observable<ArtistFK[]> {

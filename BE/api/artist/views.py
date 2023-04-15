@@ -31,58 +31,34 @@ def apiOverview(request):
     return Response(api_urls)
 
 
-# @api_view(['PUT'])
-# def artistUpdate(request, pk):
-#     try:
-#         artist =  Artist.objects.get(id=pk)
-#     except Artist.DoesNotExist:
-#         return Response(status=status.HTTP_404_NOT_FOUND)
-#     serializer = ArtistSerializer(instance=artist, data=request.data)
-    
-#     if serializer.is_valid():
-#         serializer.save()
-
-#     return Response(serializer.data)
-
-@api_view(['POST'])
-def addAlbumsToArtist(request, pk):
-    try:
-        artist =  Artist.objects.get(id=pk)
-    except Artist.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-          
-
-    
+class ArtistList(generics.ListAPIView):
+    queryset = Artist.objects.all()
+    serializer_class = ArtistSerializer
 
 
-@api_view(['GET'])
-def getArtistList(request):
-    artists = Artist.objects.all()
-    serializers = ArtistSerializer(artists, many=True)
-    return Response(serializers.data)
+class ArtistCreateView(generics.CreateAPIView):
+    queryset = Artist.objects.all()
+    serializer_class = ArtistSerializer
+
+class ArtistUpdate(generics.UpdateAPIView):
+    queryset = Artist.objects.all()
+    serializer_class = ArtistSerializer
+
+class ArtistDelete(generics.DestroyAPIView):
+    queryset = Artist.objects.all()
+    serializer_class = ArtistSerializer
+
+class ArtistDetails(generics.RetrieveAPIView):
+    queryset = Artist.objects.all()
+    serializer_class = ArtistSerializerById
 
 
-@api_view(['GET'])
-def getArtistById(request, pk):
-    try:
-        artist =  Artist.objects.get(id=pk)
-    except Artist.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+class ArtistByMinimumHeight(generics.ListAPIView):
+    serializer_class = ArtistSerializer
 
-    serializer = ArtistSerializerById(artist, many=False)
-    return Response(serializer.data)
-
-@api_view(['GET'])
-def getArtistByMinimumHeight(request):
-    minimum_height = request.GET.get('min_height')
-    artists = Artist.objects.all()
-
-    if minimum_height is not None:
-        artists = artists.filter(height__gt=minimum_height)
-
-    serializers = ArtistSerializer(artists, many=True)
-    return Response(serializers.data)
-########################
+    def get_queryset(self):
+        min_height = self.request.query_params.get('min_height')
+        return Artist.objects.filter(height__gt=min_height)
 
 
 class Top5ArtistsByAlbumsNo(generics.ListAPIView):
@@ -91,39 +67,4 @@ class Top5ArtistsByAlbumsNo(generics.ListAPIView):
     def get_queryset(self):
         query = Artist.objects.annotate(no_albums=Count('album'))\
                               .order_by('-no_albums')[:5]
-        print(query.query)
         return query
-
-
-@api_view(['POST'])
-def artistCreate(request):
-    serializer = ArtistSerializer(data=request.data)
-
-    if serializer.is_valid():
-        serializer.save()
-
-    return Response(serializer.data)
-
-
-@api_view(['PUT'])
-def artistUpdate(request, pk):
-    try:
-        artist =  Artist.objects.get(id=pk)
-    except Artist.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = ArtistSerializer(instance=artist, data=request.data)
-    
-    if serializer.is_valid():
-        serializer.save()
-
-    return Response(serializer.data)
-
-
-@api_view(['DELETE'])
-def artistDelete(request, pk):
-    try:
-        artist =  Artist.objects.get(id=pk)
-    except Artist.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    artist.delete()
-    return Response("Artist deleted successfully!")

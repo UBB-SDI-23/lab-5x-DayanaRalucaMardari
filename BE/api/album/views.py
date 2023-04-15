@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework import status
 
+from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -27,65 +28,29 @@ def apiOverview(request):
     return Response(api_urls)
 
 
-@api_view(['GET'])
-def getAlbumList(request):
-    albums = Album.objects.all()
-    serializers = AlbumSerializer(albums, many=True)
-    return Response(serializers.data)
+class AlbumList(generics.ListAPIView):
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer
 
 
-@api_view(['GET'])
-def getAlbumById(request, pk):
-    # validate the existance of the given PK
-    try:
-        album =  Album.objects.get(id=pk)
-    except Album.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    
-
-    serializer = AlbumSerializerById(album, many=False)
-    return Response(serializer.data)
+class AlbumDetails(generics.RetrieveAPIView):
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializerById
 
 
-@api_view(['POST'])
-def albumCreate(request):
-    print("BACKEND\n")
-    print(request.data)
-    # validate the existance the given 'artist_id' FK
-    # artist_id = request.data['artist_id']
-    # try:
-    #     Artist.objects.get(id=artist_id)
-    # except Artist.DoesNotExist:
-    #     return Response(status=status.HTTP_404_NOT_FOUND)
-
-    serializer = AlbumSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-
-    return Response(serializer.data)
+class AlbumCreate(generics.CreateAPIView):
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer
 
 
-@api_view(['PUT'])
-def albumUpdate(request, pk):
-    # validate the existance of the given PK
-    try:
-        album =  Album.objects.get(id=pk)
-    except Album.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+class AlbumUpdate(generics.UpdateAPIView):
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer
 
-     # validate the existance the given 'artist_id' FK
-    artist_id = request.data['artist_id']
-    try:
-        Artist.objects.get(id=artist_id)
-    except Artist.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
 
-    serializer = AlbumSerializer(instance=album, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-
-    return Response(serializer.data)
+class AlbumDelete(generics.DestroyAPIView):
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer
 
 
 @api_view(['DELETE'])

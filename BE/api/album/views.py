@@ -51,14 +51,3 @@ class AlbumUpdate(generics.UpdateAPIView):
 class AlbumDelete(generics.DestroyAPIView):
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
-
-
-@api_view(['DELETE'])
-def albumDelete(request, pk):
-    # validate the existance of the given PK
-    try:
-        album =  Album.objects.get(id=pk)
-    except Album.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    album.delete()
-    return Response("Album deleted successfully!")

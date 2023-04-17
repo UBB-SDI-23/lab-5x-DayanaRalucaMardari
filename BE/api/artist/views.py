@@ -40,13 +40,16 @@ class ArtistCreateView(generics.CreateAPIView):
     queryset = Artist.objects.all()
     serializer_class = ArtistSerializer
 
+
 class ArtistUpdate(generics.UpdateAPIView):
     queryset = Artist.objects.all()
     serializer_class = ArtistSerializer
 
+
 class ArtistDelete(generics.DestroyAPIView):
     queryset = Artist.objects.all()
     serializer_class = ArtistSerializer
+
 
 class ArtistDetails(generics.RetrieveAPIView):
     queryset = Artist.objects.all()

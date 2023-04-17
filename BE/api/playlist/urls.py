@@ -1,17 +1,20 @@
 from django.urls import path, include
 from . import views
-from .views import PlaylistByAvgSongLength
+from .views import PlaylistByAvgSongLength, PlaylistList, PlaylistSongList, \
+    PlaylistDetails, GetPlaylistSong, PlaylistCreate, PlaylistUpdate, PlaylistDelete, \
+    AddSongToPlaylist, SongPlaylistUpdate, SongPlaylistDelete
 
 urlpatterns = [
     # path('', views.apiOverview, name="api-overview"),
-    path('', views.getPlaylistList, name="playlist-list"),
-    path('id/<str:pk>/', views.getPlaylistById, name="playlist-by-id"),
-    path('get/<str:playlist_pk>/<str:song_pk>/', views.getPlaylistSong, name="get-playlist-song"),
-    path('create/', views.playlistCreate, name="playlist-create"),
-    path('add/<str:pk>/', views.addSongToPlaylist, name="playlist-add-song"),
-    path('update/<str:pk>/', views.updatePlaylist, name="playlist-update"),
-    path('update/song/<str:playlist_pk>/<str:song_pk>/', views.updateSongPlaylist, name="playlist-song-update"),
-    path('delete/<str:pk>/', views.deletePlaylist, name="playlist-delete"),
-    path('delete/song/<str:playlist_pk>/<str:song_pk>/', views.deletePlaylistSong, name="playlist-song-delete"),
+    path('', PlaylistList.as_view()),
+    path('all/', PlaylistSongList.as_view()),
+    path('id/<str:pk>/', PlaylistDetails.as_view()),
+    path('get/<int:playlist_id>/<int:song_id>/', GetPlaylistSong.as_view()),
+    path('create/', PlaylistCreate.as_view()),
+    path('update/<str:pk>/', PlaylistUpdate.as_view()),
+    path('delete/song/<int:playlist_id>/<int:song_id>/', SongPlaylistDelete.as_view()),
+    path('delete/<str:pk>/', PlaylistDelete.as_view()),
     path('filter/song/avg/length/', PlaylistByAvgSongLength.as_view()),
+    path('add/', AddSongToPlaylist.as_view()),
+    path('update/song/<str:playlist_id>/<str:song_id>/', SongPlaylistUpdate.as_view()),   
 ]

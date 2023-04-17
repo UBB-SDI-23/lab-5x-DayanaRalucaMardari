@@ -31,23 +31,29 @@ def apiOverview(request):
     return Response(api_urls)
 
 
-@api_view(['GET'])
-def getPlaylistList(request):
-    playlists = Playlist.objects.all()
-    serializers = PlaylistSerializer(playlists, many=True)
-    return Response(serializers.data)
+class PlaylistList(generics.ListAPIView):
+    queryset = Playlist.objects.all()
+    serializer_class = PlaylistSerializer
 
 
-@api_view(['GET'])
-def getPlaylistById(request, pk):
-    # validate the existance of the given PK
-    try:
-        playlist =  Playlist.objects.get(id=pk)
-    except Playlist.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+class PlaylistCreate(generics.CreateAPIView):
+    queryset = Playlist.objects.all()
+    serializer_class = PlaylistSerializer
 
-    serializer = PlaylistSerializer(playlist, many=False)
-    return Response(serializer.data)
+
+class PlaylistDetails(generics.RetrieveAPIView):
+    queryset = Playlist.objects.all()
+    serializer_class = PlaylistSerializer
+
+
+class PlaylistUpdate(generics.UpdateAPIView):
+    queryset = Playlist.objects.all()
+    serializer_class = PlaylistSerializer
+
+
+class PlaylistDelete(generics.DestroyAPIView):
+    queryset = Playlist.objects.all()
+    serializer_class = PlaylistSerializer
 
 
 class PlaylistByAvgSongLength(generics.ListAPIView):
@@ -61,124 +67,44 @@ class PlaylistByAvgSongLength(generics.ListAPIView):
         return query
 
 
-@api_view(['GET'])
-def getPlaylistSong(request, playlist_pk, song_pk):
-    # validate the existance of the given playlist 'playlist_pk'
-    try:
-        Playlist.objects.get(id=playlist_pk)
-    except Playlist.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    # validate the existance of the given playlist 'song_pk'
-    try:
-        Song.objects.get(id=song_pk)
-    except Song.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    playlist_song = PlaylistSong.objects.get(playlist_id=playlist_pk, song_id=song_pk)
-
-    serializer = PlaylistSongSerializer(playlist_song, many=False)
-    return Response(serializer.data)
+class PlaylistSongList(generics.ListAPIView):
+    queryset = PlaylistSong.objects.all()
+    serializer_class = PlaylistSongSerializer
 
 
-@api_view(['POST'])
-def playlistCreate(request):
-    serializer = PlaylistSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+class GetPlaylistSong(generics.RetrieveAPIView):
+    lookup_fields = 'playlist_id'
+    lookup_url_kwarg = 'song_id'
+    serializer_class = PlaylistSongSerializer    
 
-    return Response(serializer.data)
-
-
-@api_view(['POST'])
-def addSongToPlaylist(request, pk):
-    # validate the existance of the given playlist 'pk'
-    try:
-        Playlist.objects.get(id=pk)
-    except Playlist.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    # validate the existance of the given 'song_id'
-    song_id = request.data['song_id']
-    try:
-        Song.objects.get(id=song_id)
-    except Song.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    serializer = PlaylistSongSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    return Response(serializer.data)
+    def get_object(self):
+        playlist_pk = self.kwargs['playlist_id']
+        song_pk = self.kwargs['song_id']
+        return PlaylistSong.objects.get(playlist_id=playlist_pk, song_id=song_pk)
 
 
-@api_view(['PUT'])
-def updatePlaylist(request, pk):
-    # validate the existance of the given playlist 'pk'
-    try:
-        playlist = Playlist.objects.get(id=pk)
-    except Playlist.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    serializer = PlaylistSerializer(instance=playlist, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-
-    return Response(serializer.data)
+class AddSongToPlaylist(generics.CreateAPIView):
+    queryset = PlaylistSong.objects.all()
+    serializer_class = PlaylistSongSerializer
 
 
-@api_view(['PUT'])
-def updateSongPlaylist(request, playlist_pk, song_pk):
-    # validate the existance of the given playlist 'playlist_pk'
-    try:
-        Playlist.objects.get(id=playlist_pk)
-    except Playlist.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+class SongPlaylistUpdate(generics.UpdateAPIView):
+    lookup_fields = 'playlist_id'
+    lookup_url_kwarg = 'song_id'
+    serializer_class = PlaylistSongSerializer
 
-    # validate the existance of the given playlist 'song_pk'
-    try:
-        Song.objects.get(id=song_pk)
-    except Song.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    playlist_song = PlaylistSong.objects.get(playlist_id=playlist_pk, song_id=song_pk)
-
-    serializer = PlaylistSongSerializer(instance=playlist_song, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-
-    return Response(serializer.data)
+    def get_object(self):
+        playlist_pk = self.kwargs['playlist_id']
+        song_pk = self.kwargs['song_id']
+        return PlaylistSong.objects.get(playlist_id=playlist_pk, song_id=song_pk)
 
 
-@api_view(['DELETE'])
-def deletePlaylist(request, pk):
-    # validate the existance of the given PK
-    try:
-        playlist =  Playlist.objects.get(id=pk)
-    except Playlist.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    playlist.delete()
-    return Response("Playlist deleted successfully!")
+class SongPlaylistDelete(generics.DestroyAPIView):
+    lookup_fields = 'playlist_id'
+    lookup_url_kwarg = 'song_id'
+    serializer_class = PlaylistSongSerializer
 
-
-@api_view(['DELETE'])
-def deletePlaylistSong(request, playlist_pk, song_pk):
-    # validate the existance of the given playlist 'playlist_pk'
-    try:
-        Playlist.objects.get(id=playlist_pk)
-    except Playlist.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    # validate the existance of the given playlist 'song_pk'
-    try:
-        Song.objects.get(id=song_pk)
-    except Song.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    playlist_song = PlaylistSong.objects.get(playlist_id=playlist_pk, song_id=song_pk)
-    playlist_song.delete()
-    return Response("Playlist song deleted successfully!")
+    def get_object(self):
+        playlist_pk = self.kwargs['playlist_id']
+        song_pk = self.kwargs['song_id']
+        return PlaylistSong.objects.get(playlist_id=playlist_pk, song_id=song_pk)

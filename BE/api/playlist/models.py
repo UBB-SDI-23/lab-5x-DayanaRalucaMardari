@@ -18,4 +18,8 @@ class PlaylistSong(models.Model):
     no_shares = models.IntegerField(default=0)
 
     class Meta:
-        unique_together = ("playlist_id", "song_id")
+        constraints = [
+            models.UniqueConstraint(fields=['playlist_id', 'song_id'], 
+                                    name="playlist_song_unique_pair")
+        ]
+        # unique_together = ("playlist_id", "song_id")

@@ -32,7 +32,7 @@ def apiOverview(request):
 
 
 class ArtistList(generics.ListAPIView):
-    queryset = Artist.objects.all()
+    queryset = Artist.objects.all()[:100]
     serializer_class = ArtistSerializer
 
 

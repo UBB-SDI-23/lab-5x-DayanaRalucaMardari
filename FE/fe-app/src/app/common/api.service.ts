@@ -11,7 +11,8 @@ import { AddAlbumDto, Album } from '../features/artist/artist-overview/models/al
 })
 export class ApiService {
   //baseUrl = 'http://localhost:8000/api'; // have to change it to the AWS
-  baseUrl = 'http://13.49.125.36:80/api';
+  // baseUrl = 'http://13.49.125.36:80/api';
+  baseUrl = 'https://dayanamdr.ignorelist.com/api';
   _refreshRequested$ = new Subject<void>();
 
   constructor(private http: HttpClient) { }

@@ -29,7 +29,7 @@ def apiOverview(request):
 
 
 class AlbumList(generics.ListAPIView):
-    queryset = Album.objects.all()
+    queryset = Album.objects.all()[:150]
     serializer_class = AlbumSerializer
 
 

@@ -26,7 +26,7 @@ def apiOverview(request):
 
 
 class SongList(generics.ListAPIView):
-    queryset = Song.objects.all()
+    queryset = Song.objects.all()[:120]
     serializer_class = SongSerializer
 
 

@@ -32,7 +32,7 @@ def apiOverview(request):
 
 
 class PlaylistList(generics.ListAPIView):
-    queryset = Playlist.objects.all()
+    queryset = Playlist.objects.all()[:130]
     serializer_class = PlaylistSerializer
 
 
@@ -68,7 +68,7 @@ class PlaylistByAvgSongLength(generics.ListAPIView):
 
 
 class PlaylistSongList(generics.ListAPIView):
-    queryset = PlaylistSong.objects.all()
+    queryset = PlaylistSong.objects.all()[:90]
     serializer_class = PlaylistSongSerializer
 
 
